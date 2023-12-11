@@ -8,22 +8,21 @@ returns a asyncio.Task.
 """
 
 import asyncio
-from typing import Callable
+from typing import Coroutine
 
 wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-def task_wait_random(max_delay: int) -> Callable:
+def task_wait_random(max_delay: int) -> asyncio.Task:
     """
-    Regular function that returns an asyncio.Task.
+    Regular function that returns an asyncio.Task for wait_random.
 
     Parameters:
     - max_delay (int): The maximum delay in seconds.
 
     Returns:
-    - Callable: A function that, when called, returns an asyncio.Task.
+    - asyncio.Task: The asyncio task for wait_random.
     """
-    async def wait_random_wrapper():
-        return await wait_random(max_delay)
-
-    return asyncio.create_task(wait_random_wrapper())
+    coroutine = wait_random(max_delay)
+    task = asyncio.create_task(coroutine)
+    return task
